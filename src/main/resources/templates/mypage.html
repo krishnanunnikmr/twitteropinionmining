@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+            <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <link rel="shortcut icon" type="image/png" href="/images/favicon.png" />
+        <title>ChangeProperty</title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row col-md-8 col-md-offset-2">
+            <fieldset>
+                <legend>Update user profile</legend>
+                <p style="color: red;" th:each="e:${errors}" th:text="${e}"></p>
+                <form class="form-horizontal"  th:action="@{update}" method="post" th:object="${userForm}">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="screenname">HandleName</label>
+                        <div class="col-md-9">
+                            <input name="screenname" id="screenname"
+                                   th:field="*{screenName}" placeholder="HandleName" class="form-control input-md"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="bio">Biography</label>
+                        <div class="col-md-9">
+                            <textarea class="form-control" name="bio" id="bio"
+                                      th:field="*{biography}" placeholder="Biography" >Biography</textarea>
+                        </div>
+                    </div>
+                    <!--/*<div class="form-group">
+                        <label class="col-md-4 control-label" for="filebutton">Upload Image</label>
+                        <div class="col-md-4">
+                            <input id="filebutton" name="filebutton" class="input-file" type="file" />
+                        </div>
+                    </div>*/-->
+                    <!-- Button -->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="singlebutton"></label>
+                        <div class="col-md-9">
+                            <button id="singlebutton" name="singlebutton" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </fieldset>
+            <fieldset>
+                <legend>Update user icon</legend>
+                <form class="form-horizontal" th:action="@{/files/icon/upload}" method="post"  enctype="multipart/form-data" >
+                <!--<form class="form-horizontal" enctype="multipart/form-data" method="post">-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Upload</label>
+                        <div class="col-md-9">
+                            <input id="input-1" type="file" class="file" name="icon" accept="image/*"/>
+                        </div>
+                    </div>
+                </form>
+            </fieldset>
+            </div>
+        </div>
+
+
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="/css/signin.css" rel="stylesheet" />
+        <link href="/css/fileinput.min.css" rel="stylesheet" />
+        <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+        <script src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js'></script>
+        <script src="/js/fileinput.min.js"></script>
+        <!--<script src="/js/input-setting.js"></script>-->
+    </body>
+</html>
+
