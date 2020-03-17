@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import twitter.opinion.mining.exception.UserIdAlreadyExistsException;
+import twitter.opinion.mining.exception.UserIdNotFoundException;
 import twitter.opinion.mining.form.RegisterForm;
 import twitter.opinion.mining.form.TweetForm;
 import twitter.opinion.mining.form.UserForm;

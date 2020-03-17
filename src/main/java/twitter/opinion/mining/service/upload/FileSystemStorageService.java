@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import twitter.opinion.mining.exception.StorageException;
+import twitter.opinion.mining.exception.StorageFileNotFoundException;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;

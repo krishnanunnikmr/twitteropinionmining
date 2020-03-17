@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import twitter.opinion.mining.controller.TwitterController;
+import twitter.opinion.mining.exception.UserIdAlreadyExistsException;
+import twitter.opinion.mining.exception.UserIdNotFoundException;
 import twitter.opinion.mining.model.User;
 import twitter.opinion.mining.repository.UserRepository;
 

@@ -1,4 +1,4 @@
-package twitter.opinion.mining.service;
+package twitter.opinion.mining.exception;
 
 
 public class UserIdAlreadyExistsException extends RuntimeException{
