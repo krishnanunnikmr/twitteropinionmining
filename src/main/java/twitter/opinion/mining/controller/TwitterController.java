@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.hankcs.hanlp.classification.classifiers.IClassifier;
+
 import twitter.opinion.mining.exception.UserIdAlreadyExistsException;
 import twitter.opinion.mining.exception.UserIdNotFoundException;
 import twitter.opinion.mining.form.RegisterForm;
@@ -23,6 +25,7 @@ import twitter.opinion.mining.model.Tweet;
 import twitter.opinion.mining.model.User;
 import twitter.opinion.mining.service.*;
 import twitter.opinion.mining.service.upload.FileSystemStorageService;
+import twitter.opinion.mining.util.SVMUtil;
 import twitter.opinion.mining.util.Util;
 
 import java.security.Principal;
@@ -40,17 +43,20 @@ public class TwitterController {
     private UserService userService;
     private TwitterUserDetailsService userDetailsService;
     private FileSystemStorageService fileSystemStorageService;
+    private IClassifier iClassifier;
 
  
     @Autowired
     public TwitterController(TweetService tweetService,
                                   UserService userService,
                                   TwitterUserDetailsService userDetailsService,
-                                  FileSystemStorageService fileSystemStorageService) {
+                                  FileSystemStorageService fileSystemStorageService,
+                                  IClassifier iClassifier) {
         this.tweetService = tweetService;
         this.userService = userService;
         this.userDetailsService = userDetailsService;
         this.fileSystemStorageService = fileSystemStorageService;
+        this.iClassifier=iClassifier;
     }
 
     @GetMapping(value = "/")
@@ -83,9 +89,12 @@ public class TwitterController {
             return timeline(principal, model);
             //return "redirect:/";
         }
-        Tweet tweet = new Tweet(form.getContent(),Util.getLoginuserFromPrincipal(principal));
+        Tweet tweet = 
+        		new Tweet(form.getContent(),Util.getLoginuserFromPrincipal(principal)
+        				,predictTheCategory(form));
 
-        //tweetService.save(tweet);
+        
+        
         try {
             tweetService.save(tweet);
         } catch (Exception e) {
@@ -217,6 +226,18 @@ public class TwitterController {
             log.info(u.toString());
         }
         return "redirect:/";
+    }
+    
+    private String predictTheCategory(TweetForm form) {
+    	String category="Other";
+    	try {
+    		 category=SVMUtil.predictTheCategory(iClassifier, form.getContent());
+    		 log.info("predicted Category" + category);
+    	}
+    	catch(Exception e) {
+    		category="Other";
+    	}
+    	return category;
     }
 
 }

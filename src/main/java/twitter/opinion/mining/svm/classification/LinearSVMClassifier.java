@@ -15,10 +15,6 @@ import java.util.*;
 
 import static com.hankcs.hanlp.classification.utilities.Predefine.logger;
 
-
-/**
- * @author hankcs
- */
 public class LinearSVMClassifier extends AbstractClassifier
 {
     LinearSVMModel model;
@@ -36,14 +32,12 @@ public class LinearSVMClassifier extends AbstractClassifier
     {
         if (model == null)
         {
-            throw new IllegalStateException("未训练模型！无法执行预测！");
+            throw new IllegalStateException("Model Object Is Null");
         }
         if (text == null)
         {
-            throw new IllegalArgumentException("参数 text == null");
+            throw new IllegalArgumentException("Preduction text is  null");
         }
-
-        //分词，创建文档
         Document document = new Document(model.wordIdTrie, model.tokenizer.segment(text));
 
         return predict(document);
@@ -61,7 +55,7 @@ public class LinearSVMClassifier extends AbstractClassifier
     @Override
     public void train(IDataSet dataSet)
     {
-        if (dataSet.size() == 0) throw new IllegalArgumentException("训练数据集为空,无法继续训练");
+        if (dataSet.size() == 0) throw new IllegalArgumentException("Data Set IS Null");
         // 选择特征
         DfFeatureData featureData = selectFeatures(dataSet);
         // 构造权重计算逻辑
@@ -151,12 +145,7 @@ public class LinearSVMClassifier extends AbstractClassifier
         return x;
     }
 
-    /**
-     * 统计特征并且执行特征选择，返回一个FeatureStats对象，用于计算模型中的概率
-     *
-     * @param dataSet
-     * @return
-     */
+
     protected DfFeatureData selectFeatures(IDataSet dataSet)
     {
         ChiSquareFeatureExtractor chiSquareFeatureExtractor = new ChiSquareFeatureExtractor();

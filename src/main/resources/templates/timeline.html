@@ -71,7 +71,7 @@
 					<!--/*リンクで飛ぶときはth:action*/-->
 					<form class="navbar-brand" th:action="@{/update}" th:method="get"
 						id="cpbutton">
-						<button class="btn btn-primary">ChangeProperty</button>
+						<button class="btn btn-primary">Edit Profile</button>
 					</form>
 					<form class="navbar-brand" th:action="@{/logout}" th:method="post"
 						id="lbutton">
@@ -153,6 +153,7 @@
 									<div class="col-lg-9 col-md-9 col-sm-10">
 										<p class="h4" th:text="${tweet.tweetUser.screenName}"></p>
 										<p class="h5" th:text="${tweet.content}"></p>
+										<p class="h5" th:text="${tweet.category}"></p>
 									</div>
 								</div>
 								<div class="row">
