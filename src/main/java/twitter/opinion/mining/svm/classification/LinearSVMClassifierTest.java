@@ -26,7 +26,7 @@ public class LinearSVMClassifierTest
         IClassifier classifier = new LinearSVMClassifier(trainOrLoadModel());
        // predict(classifier, "如果真想用食物解压,建议可以食用燕麦");
        // predict(classifier, "美国财政部将就其主要贸易伙伴的外汇政策发布半年度报告");
-        predict(classifier, "krishnanunni");
+        predict(classifier, "drug");
     }
 
     private static void predict(IClassifier classifier, String text)
