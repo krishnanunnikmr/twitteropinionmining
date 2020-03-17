@@ -1,4 +1,4 @@
-package twitter.opinion.mining.domain.service;
+package twitter.opinion.mining.service;
 
 
 public class UserIdNotFoundException extends RuntimeException {

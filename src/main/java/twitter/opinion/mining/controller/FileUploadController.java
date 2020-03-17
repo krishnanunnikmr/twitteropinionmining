@@ -1,4 +1,4 @@
-package twitter.opinion.mining.app;
+package twitter.opinion.mining.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,11 +12,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import twitter.opinion.mining.domain.model.User;
-import twitter.opinion.mining.domain.service.UserIdNotFoundException;
-import twitter.opinion.mining.domain.service.UserService;
-import twitter.opinion.mining.domain.service.upload.StorageFileNotFoundException;
-import twitter.opinion.mining.domain.service.upload.StorageService;
+import twitter.opinion.mining.model.User;
+import twitter.opinion.mining.service.UserIdNotFoundException;
+import twitter.opinion.mining.service.UserService;
+import twitter.opinion.mining.service.upload.StorageFileNotFoundException;
+import twitter.opinion.mining.service.upload.StorageService;
 import twitter.opinion.mining.util.Util;
 
 import java.nio.file.Path;

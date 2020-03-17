@@ -1,4 +1,4 @@
-package twitter.opinion.mining.domain.service;
+package twitter.opinion.mining.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,9 +8,9 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import twitter.opinion.mining.app.TwitterController;
-import twitter.opinion.mining.domain.model.User;
-import twitter.opinion.mining.domain.repository.UserRepository;
+import twitter.opinion.mining.controller.TwitterController;
+import twitter.opinion.mining.model.User;
+import twitter.opinion.mining.repository.UserRepository;
 
 @Service
 @Transactional

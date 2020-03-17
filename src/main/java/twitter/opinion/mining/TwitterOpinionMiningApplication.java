@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
-import twitter.opinion.mining.domain.service.upload.StorageProperties;
-import twitter.opinion.mining.domain.service.upload.StorageService;
+import twitter.opinion.mining.service.upload.StorageProperties;
+import twitter.opinion.mining.service.upload.StorageService;
 
 @SpringBootApplication
 @EnableConfigurationProperties(StorageProperties.class)

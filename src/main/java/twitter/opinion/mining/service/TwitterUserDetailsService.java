@@ -1,4 +1,4 @@
-package twitter.opinion.mining.domain.service;
+package twitter.opinion.mining.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import twitter.opinion.mining.domain.model.User;
-import twitter.opinion.mining.domain.repository.UserRepository;
+import twitter.opinion.mining.model.User;
+import twitter.opinion.mining.repository.UserRepository;
 
 
 @Service

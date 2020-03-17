@@ -1,11 +1,11 @@
-package twitter.opinion.mining.domain.service;
+package twitter.opinion.mining.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import twitter.opinion.mining.domain.model.Tweet;
-import twitter.opinion.mining.domain.model.User;
-import twitter.opinion.mining.domain.repository.TweetRepository;
+import twitter.opinion.mining.model.Tweet;
+import twitter.opinion.mining.model.User;
+import twitter.opinion.mining.repository.TweetRepository;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;

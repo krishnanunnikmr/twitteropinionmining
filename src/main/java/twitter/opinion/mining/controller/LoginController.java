@@ -1,4 +1,4 @@
-package twitter.opinion.mining.app;
+package twitter.opinion.mining.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

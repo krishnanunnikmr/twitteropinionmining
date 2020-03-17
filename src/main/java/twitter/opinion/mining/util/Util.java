@@ -7,9 +7,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
-import twitter.opinion.mining.app.FileUploadController;
-import twitter.opinion.mining.domain.model.User;
-import twitter.opinion.mining.domain.service.TwitterUserDetails;
+import twitter.opinion.mining.controller.FileUploadController;
+import twitter.opinion.mining.model.User;
+import twitter.opinion.mining.service.TwitterUserDetails;
 
 
 public class Util {

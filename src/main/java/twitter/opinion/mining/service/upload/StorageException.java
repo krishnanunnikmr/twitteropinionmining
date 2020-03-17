@@ -1,4 +1,4 @@
-package twitter.opinion.mining.domain.service.upload;
+package twitter.opinion.mining.service.upload;
 
 
 public class StorageException extends RuntimeException {

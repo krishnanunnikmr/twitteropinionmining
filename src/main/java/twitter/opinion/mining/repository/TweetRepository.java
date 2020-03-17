@@ -1,8 +1,8 @@
-package twitter.opinion.mining.domain.repository;
+package twitter.opinion.mining.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import twitter.opinion.mining.domain.model.Tweet;
+import twitter.opinion.mining.model.Tweet;
 
 import java.util.List;
 

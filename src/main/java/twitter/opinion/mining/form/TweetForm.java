@@ -1,4 +1,4 @@
-package twitter.opinion.mining.app;
+package twitter.opinion.mining.form;
 
 import javax.validation.constraints.Size;
 

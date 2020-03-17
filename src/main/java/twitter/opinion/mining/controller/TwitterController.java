@@ -1,4 +1,4 @@
-package twitter.opinion.mining.app;
+package twitter.opinion.mining.controller;
 
 
 import org.slf4j.Logger;
@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import twitter.opinion.mining.domain.model.Tweet;
-import twitter.opinion.mining.domain.model.User;
-import twitter.opinion.mining.domain.service.*;
-import twitter.opinion.mining.domain.service.upload.FileSystemStorageService;
+import twitter.opinion.mining.form.RegisterForm;
+import twitter.opinion.mining.form.TweetForm;
+import twitter.opinion.mining.form.UserForm;
+import twitter.opinion.mining.model.Tweet;
+import twitter.opinion.mining.model.User;
+import twitter.opinion.mining.service.*;
+import twitter.opinion.mining.service.upload.FileSystemStorageService;
 import twitter.opinion.mining.util.Util;
 
 import java.security.Principal;

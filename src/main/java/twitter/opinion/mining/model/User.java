@@ -1,4 +1,4 @@
-package twitter.opinion.mining.domain.model;
+package twitter.opinion.mining.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
