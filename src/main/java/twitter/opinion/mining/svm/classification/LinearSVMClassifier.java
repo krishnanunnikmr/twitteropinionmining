@@ -56,22 +56,22 @@ public class LinearSVMClassifier extends AbstractClassifier
     public void train(IDataSet dataSet)
     {
         if (dataSet.size() == 0) throw new IllegalArgumentException("Data Set IS Null");
-        // 选择特征
+        //  Select feature
         DfFeatureData featureData = selectFeatures(dataSet);
-        // 构造权重计算逻辑
+        //  Constructing weight calculation logic
         IFeatureWeighter weighter = new TfIdfFeatureWeighter(dataSet.size(), featureData.df);
-        // 构造SVM问题
+        // Constructing SVM problems
         Problem problem = createLiblinearProblem(dataSet, featureData, weighter);
-        // 释放内存
+        //Free up memory
         BinTrie<Integer> wordIdTrie = featureData.wordIdTrie;
         featureData = null;
         ITokenizer tokenizer = dataSet.getTokenizer();
         String[] catalog = dataSet.getCatalog().toArray();
         dataSet = null;
         System.gc();
-        // 求解SVM问题
+        // Solving SVM problems
         Model svmModel = solveLibLinearProblem(problem);
-        // 将有用的数据留下来
+        // Keep useful data
         model = new LinearSVMModel();
         model.tokenizer = tokenizer;
         model.wordIdTrie = wordIdTrie;
@@ -87,8 +87,7 @@ public class LinearSVMClassifier extends AbstractClassifier
 
     private Model solveLibLinearProblem(Problem problem)
     {
-        de.bwaldvogel.liblinear.Parameter lparam = new Parameter(SolverType.L1R_LR,
-//                                                                 grid.find_parameters(problem, 500, 505, 1),
+        de.bwaldvogel.liblinear.Parameter lparam = new Parameter(SolverType.L1R_LR,                                                              
                                                                  500.,
                                                                  0.01);
         return de.bwaldvogel.liblinear.Linear.train(problem, lparam);
@@ -101,14 +100,14 @@ public class LinearSVMClassifier extends AbstractClassifier
         problem.l = n;
         problem.n = baseFeatureData.featureCategoryJointCount.length;
         problem.x = new FeatureNode[n][];
-        problem.y = new double[n];  // 最新版liblinear的y数组是浮点数
+        problem.y = new double[n]; //The latest version of liblinear's y array is a floating point number
         Iterator<Document> iterator = dataSet.iterator();
         for (int i = 0; i < n; i++)
         {
-            // 构造文档向量
+            // Constructing document vectors
             Document document = iterator.next();
             problem.x[i] = buildDocumentVector(document, weighter);
-            // 设置样本的y值
+            //Set the sample's y value
             problem.y[i] = document.category;
         }
 
@@ -117,7 +116,7 @@ public class LinearSVMClassifier extends AbstractClassifier
 
     private FeatureNode[] buildDocumentVector(Document document, IFeatureWeighter weighter)
     {
-        int termCount = document.tfMap.size();  // 词的个数
+        int termCount = document.tfMap.size();  //Number of words
         FeatureNode[] x = new FeatureNode[termCount];
         Iterator<Map.Entry<Integer, int[]>> tfMapIterator = document.tfMap.entrySet().iterator();
         for (int j = 0; j < termCount; j++)
@@ -125,10 +124,10 @@ public class LinearSVMClassifier extends AbstractClassifier
             Map.Entry<Integer, int[]> tfEntry = tfMapIterator.next();
             int feature = tfEntry.getKey();
             int frequency = tfEntry.getValue()[0];
-            x[j] = new FeatureNode(feature + 1,  // liblinear 要求下标从1开始递增
+            x[j] = new FeatureNode(feature + 1,  // liblinear Require subscripts to increase from 1
                                    weighter.weight(feature, frequency));
         }
-        // 对向量进行归一化
+        // Normalize the vector
         double normalizer = 0;
         for (int j = 0; j < termCount; j++)
         {
@@ -150,14 +149,14 @@ public class LinearSVMClassifier extends AbstractClassifier
     {
         ChiSquareFeatureExtractor chiSquareFeatureExtractor = new ChiSquareFeatureExtractor();
 
-        //FeatureStats对象包含文档中所有特征及其统计信息
-        DfFeatureData featureData = new DfFeatureData(dataSet); //执行统计
+        //FeatureStats-Object contains all features in the document and their statistics
+        DfFeatureData featureData = new DfFeatureData(dataSet); //Executive statistics
 
-        logger.start("使用卡方检测选择特征中...");
-        //我们传入这些统计信息到特征选择算法中，得到特征与其分值
+        logger.start("Use chi-square detection to select features ...");
+        //We pass these statistics into the feature selection algorithm to get the features and their scores
         Map<Integer, Double> selectedFeatures = chiSquareFeatureExtractor.chi_square(featureData);
 
-        //从训练数据中删掉无用的特征并重建特征映射表
+        // Delete useless features from the training data and rebuild the feature map
         String[] wordIdArray = dataSet.getLexicon().getWordIdArray();
         int[] idMap = new int[wordIdArray.length];
         Arrays.fill(idMap, -1);
@@ -171,13 +170,13 @@ public class LinearSVMClassifier extends AbstractClassifier
             featureData.df[p] = MathUtility.sum(featureData.featureCategoryJointCount[feature]);
             idMap[feature] = p;
         }
-        logger.finish(",选中特征数:%d / %d = %.2f%%\n", selectedFeatures.size(),
+        logger.finish(",Number of selected features:%d / %d = %.2f%%\n", selectedFeatures.size(),
                       featureData.featureCategoryJointCount.length,
                       MathUtility.percentage(selectedFeatures.size(), featureData.featureCategoryJointCount.length));
-        logger.start("缩减训练数据中...");
+        logger.start("Reduce training data...");
         int n = dataSet.size();
         dataSet.shrink(idMap);
-        logger.finish("缩减了 %d 个样本,剩余 %d 个样本\n", n - dataSet.size(), dataSet.size());
+        logger.finish("Reduced% d samples,% d samples remaining\n", n - dataSet.size(), dataSet.size());
 
         return featureData;
     }
