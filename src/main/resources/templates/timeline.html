@@ -9,47 +9,47 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <link rel="shortcut icon" type="image/png" href="/images/favicon.png" />
- <link rel="stylesheet" type="text/css" href="css/jquery.emojipicker.css">
-  <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
-  <script type="text/javascript" src="js/jquery.emojipicker.js"></script>
+<link rel="stylesheet" type="text/css" href="css/jquery.emojipicker.css">
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="js/jquery.emojipicker.js"></script>
 
-  <!-- Emoji Data -->
-  <link rel="stylesheet" type="text/css" href="css/jquery.emojipicker.tw.css">
-  <script type="text/javascript" src="js/jquery.emojis.js"></script>
+<!-- Emoji Data -->
+<link rel="stylesheet" type="text/css"
+	href="css/jquery.emojipicker.tw.css">
+<script type="text/javascript" src="js/jquery.emojis.js"></script>
 
-  <script type="text/javascript">
-    $(document).ready(function(e) {
+<script type="text/javascript">
+	$(document).ready(function(e) {
 
-      $('#input-default').emojiPicker();
+		$('#input-default').emojiPicker();
 
-   
+		$('#create').click(function(e) {
+			e.preventDefault();
+			$('#text-custom-trigger').emojiPicker({
+				width : '300px',
+				height : '200px',
+				button : false
+			});
+		});
 
-      $('#create').click(function(e) {
-        e.preventDefault();
-        $('#text-custom-trigger').emojiPicker({
-          width: '300px',
-          height: '200px',
-          button: false
-        });
-      });
+		$('#toggle').click(function(e) {
+			e.preventDefault();
+			$('#text-custom-trigger').emojiPicker('toggle');
+		});
 
-      $('#toggle').click(function(e) {
-        e.preventDefault();
-        $('#text-custom-trigger').emojiPicker('toggle');
-      });
+		$('#destroy').click(function(e) {
+			e.preventDefault();
+			$('#text-custom-trigger').emojiPicker('destroy');
+		})
 
-      $('#destroy').click(function(e) {
-        e.preventDefault();
-        $('#text-custom-trigger').emojiPicker('destroy');
-      })
+		// keyup event is fired
+		$(".emojiable-question, .emojiable-option").on("keyup", function() {
+			//console.log("emoji added, input val() is: " + $(this).val());
+		});
 
-      // keyup event is fired
-      $(".emojiable-question, .emojiable-option").on("keyup", function () {
-        //console.log("emoji added, input val() is: " + $(this).val());
-      });
-
-    });
-  </script>
+	});
+</script>
 
 <title>Twitter Opinion Mining</title>
 </head>
@@ -137,7 +137,8 @@
 					<p style="color: red" th:each="e:${errors}" th:text="${e}" />
 					<div class="row">
 						<form th:action="@{/}" th:object="${tweetForm}" method="post">
-							<textarea id="input-default" class="form-control" type="text" th:field="*{content}" />
+							<textarea id="input-default" class="form-control" type="text"
+								th:field="*{content}" />
 							<button class="btn btn-primary pull-right" id="tbutton">Tweet</button>
 						</form>
 					</div>
@@ -152,17 +153,22 @@
 									<div class="col-lg-9 col-md-9 col-sm-10">
 										<p class="h4" th:text="${tweet.tweetUser.screenName}"></p>
 										<p class="h5" th:text="${tweet.content}"></p>
+										<p class="h5"></p>
+										<form class="navbar-brand" th:action="@{/analyse}" th:method="get" id="analysebutton">
+											<button class="btn btn-primary">Analyse the Tweet</button>
+										</form>
+
 									</div>
 								</div>
 								<div class="row">
-									<div class="col-lg-12 col-md-12 col-sm-12">							
+									<div class="col-lg-12 col-md-12 col-sm-12">
 										<div class="pull-right "
 											th:text="${#dates.format(tweet.postTime,'yyyy-MM-dd HH:mm:ss')}"></div>
 									</div>
 								</div>
-									<div class="row">
+								<div class="row">
 									<div class="col-lg-12 col-md-12 col-sm-12">
-									<div class="pull-right "
+										<div class="pull-right "
 											th:text="'Category: '+ ${tweet.category}"></div>
 									</div>
 								</div>

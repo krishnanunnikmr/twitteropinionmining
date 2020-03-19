@@ -4,6 +4,7 @@ package twitter.opinion.mining.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,7 +52,7 @@ public class TwitterController {
                                   UserService userService,
                                   TwitterUserDetailsService userDetailsService,
                                   FileSystemStorageService fileSystemStorageService,
-                                  IClassifier iClassifier) {
+                                  @Qualifier("categoryClassifier") IClassifier iClassifier) {
         this.tweetService = tweetService;
         this.userService = userService;
         this.userDetailsService = userDetailsService;

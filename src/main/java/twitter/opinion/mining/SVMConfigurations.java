@@ -14,13 +14,21 @@ import twitter.opinion.mining.util.SVMUtil;
 @Configuration
 public class SVMConfigurations {
 
-	@Value( "${path.svm.dataset}")
-	private String datasetPath;
+	@Value( "${path.svm.dataset.category}")
+	private String categoryDatasetPath;
+	
+	@Value( "${path.svm.dataset.sentimental}")
+	private String sentimentalDatasetPath;
 	
 	
-	@Bean
-	IClassifier iClassifier() throws IOException {
-		return new LinearSVMClassifier(SVMUtil.trainAndLoadModel(datasetPath));
+	@Bean("categoryClassifier")
+	IClassifier categoryClassifier() throws IOException {
+		return new LinearSVMClassifier(SVMUtil.trainAndLoadModel(categoryDatasetPath));
+	}
+	
+	@Bean("sentimentalClassifier")
+	IClassifier sentimentalClassifier() throws IOException {
+		return new LinearSVMClassifier(SVMUtil.trainAndLoadModel(sentimentalDatasetPath));
 	}
 	
 	
