@@ -11,7 +11,7 @@
 <link rel="shortcut icon" type="image/png" href="/images/favicon.png" />
 <link rel="stylesheet" type="text/css" href="css/jquery.emojipicker.css">
 <script type="text/javascript"
-	src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+	src="/js/jquery-1.11.2.min.js"></script>
 <script type="text/javascript" src="js/jquery.emojipicker.js"></script>
 
 <!-- Emoji Data -->
@@ -145,6 +145,8 @@
 					<div class="row">
 						<ul class="list-group top-buffer">
 							<li class="list-group-item" th:each="tweet: ${tweets}">
+							<form th:action="@{/analyse}" th:object="${tweetForm}"
+											method="post">
 								<div class="row">
 									<div class="col-lg-3 col-md-3 col-sm-2">
 										<img th:src="${tweet.tweetUser.iconPath}"
@@ -153,11 +155,7 @@
 									<div class="col-lg-9 col-md-9 col-sm-10">
 										<p class="h4" th:text="${tweet.tweetUser.screenName}"></p>
 										<p class="h5" th:text="${tweet.content}"></p>
-										<p class="h5"></p>
-										<form class="navbar-brand" th:action="@{/analyse}" th:method="get" id="analysebutton">
-											<button class="btn btn-primary">Analyse the Tweet</button>
-										</form>
-
+										 <input type="hidden" name="content" id="content"  th:value="${tweet.content}" >
 									</div>
 								</div>
 								<div class="row">
@@ -172,6 +170,17 @@
 											th:text="'Category: '+ ${tweet.category}"></div>
 									</div>
 								</div>
+									<div class="row">
+									<div class="col-lg-12 col-md-12 col-sm-12">
+																	
+										
+
+											<button class="btn btn-primary pull-right" id="anlbutton">Analyse
+												the Tweet</button>
+									
+									</div>
+								</div>
+	</form>
 							</li>
 						</ul>
 					</div>
@@ -188,12 +197,12 @@
 	</div>
 </body>
 <link
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+	href="/css/bootstrap.min.css"
 	rel="stylesheet" />
 <!-- <script
 	src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script> -->
-<script
-	src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js'></script>
+<!-- <script
+	src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js'></script> -->
 <script src="/js/tweetbox.js"></script>
 <link href="/css/timeline.css" rel="stylesheet" />
 </html>

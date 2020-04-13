@@ -11,7 +11,7 @@
 
         <title>Sentimental Analysis</title>
     
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="/js/charts/loader.js"></script>
     <script  th:inline="javascript">
       google.charts.load("current", {packages:["corechart"]});
       google.charts.setOnLoadCallback(drawChart);
@@ -28,7 +28,7 @@
     			 analysedData1[i+1]=p;
     			 
     		 }
-            alert(analysedData1);
+            //alert(analysedData1);
         var data = google.visualization.arrayToDataTable(analysedData1);
 
         var options = {
