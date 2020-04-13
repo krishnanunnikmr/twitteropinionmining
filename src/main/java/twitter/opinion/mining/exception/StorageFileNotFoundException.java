@@ -1,4 +1,4 @@
-package twitter.opinion.mining.service.upload;
+package twitter.opinion.mining.exception;
 
 public class StorageFileNotFoundException extends StorageException {
 

@@ -25,8 +25,19 @@ public class Tweet {
 
     @NotNull
     private String content;
+    
+    //@NotNull
+    private String category;
 
-    public User getTweetUser() {
+    public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public User getTweetUser() {
         return tweetUser;
     }
 
@@ -37,9 +48,10 @@ public class Tweet {
     public Tweet() {
     }
 
-    public Tweet(String content , User tweetUser) {
+    public Tweet(String content , User tweetUser,String category) {
         this.content = content;
         this.tweetUser=tweetUser;
+        this.category=category;
     }
 
     public Integer getTweetId() {

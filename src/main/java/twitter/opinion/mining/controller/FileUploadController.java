@@ -12,10 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import twitter.opinion.mining.exception.StorageFileNotFoundException;
+import twitter.opinion.mining.exception.UserIdNotFoundException;
 import twitter.opinion.mining.model.User;
-import twitter.opinion.mining.service.UserIdNotFoundException;
 import twitter.opinion.mining.service.UserService;
-import twitter.opinion.mining.service.upload.StorageFileNotFoundException;
 import twitter.opinion.mining.service.upload.StorageService;
 import twitter.opinion.mining.util.Util;
 
