@@ -1,13 +1,18 @@
 package twitter.opinion.mining.model;
 
-import org.hibernate.annotations.CreationTimestamp;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 
 @Entity
@@ -28,8 +33,25 @@ public class Tweet {
     
     //@NotNull
     private String category;
+    
+    @OneToMany(mappedBy = "tweet")
+    private List<Comment> comments = new ArrayList<>();
 
-    public String getCategory() {
+    /**
+	 * @return the comments
+	 */
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	/**
+	 * @param comments the comments to set
+	 */
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
+	public String getCategory() {
 		return category;
 	}
 

@@ -8,16 +8,15 @@
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 <meta name="description" content="" />
 <meta name="author" content="" />
-<link rel="shortcut icon" type="image/png" href="/images/favicon.png" />
-<link rel="stylesheet" type="text/css" href="css/jquery.emojipicker.css">
-<script type="text/javascript"
-	src="/js/jquery-1.11.2.min.js"></script>
-<script type="text/javascript" src="js/jquery.emojipicker.js"></script>
+<link rel="shortcut icon" type="image/png" href="../images/favicon.png" />
+<link rel="stylesheet" type="text/css" href="../css/jquery.emojipicker.css">
+<script type="text/javascript" src="../js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="../js/jquery.emojipicker.js"></script>
 
 <!-- Emoji Data -->
 <link rel="stylesheet" type="text/css"
-	href="css/jquery.emojipicker.tw.css">
-<script type="text/javascript" src="js/jquery.emojis.js"></script>
+	href="../css/jquery.emojipicker.tw.css">
+<script type="text/javascript" src="../js/jquery.emojis.js"></script>
 
 <script type="text/javascript">
 	$(document).ready(function(e) {
@@ -68,6 +67,10 @@
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
+					<form class="navbar-brand" th:action="@{/}" th:method="get"
+						id="cpbutton">
+						<button class="btn btn-primary">Home</button>
+					</form>
 					<form class="navbar-brand" th:action="@{/update}" th:method="get"
 						id="cpbutton">
 						<button class="btn btn-primary">Edit Profile</button>
@@ -136,17 +139,9 @@
 					<!--<p style="color:red" th:if="${error!=null}" th:text="${error}"/>-->
 					<p style="color: red" th:each="e:${errors}" th:text="${e}" />
 					<div class="row">
-						<form th:action="@{/}" th:object="${tweetForm}" method="post">
-							<textarea id="input-default" class="form-control" type="text"
-								th:field="*{content}" />
-							<button class="btn btn-primary pull-right" id="tbutton">Tweet</button>
-						</form>
-					</div>
-					<div class="row">
 						<ul class="list-group top-buffer">
-							<li class="list-group-item" th:each="tweet: ${tweets}">
-							<form th:action="@{/analyse}" th:object="${tweetForm}"
-											method="post">
+							<li class="list-group-item">
+
 								<div class="row">
 									<div class="col-lg-3 col-md-3 col-sm-2">
 										<img th:src="${tweet.tweetUser.iconPath}"
@@ -155,13 +150,14 @@
 									<div class="col-lg-9 col-md-9 col-sm-10">
 										<p class="h4" th:text="${tweet.tweetUser.screenName}"></p>
 										<p class="h5" th:text="${tweet.content}"></p>
-										 <input type="hidden" name="content" id="content"  th:value="${tweet.content}" >
+										<input type="hidden" name="content" id="content"
+											th:value="${tweet.content}">
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-lg-12 col-md-12 col-sm-12">
 										<div class="pull-right "
-											th:text="${#dates.format(tweet.postTime,'yyyy-MM-dd HH:mm:ss')}"></div>
+											th:text="${#dates.format(tweet.postTime,'yyyy-MM-dd HH:mm')}"></div>
 									</div>
 								</div>
 								<div class="row">
@@ -170,22 +166,55 @@
 											th:text="'Category: '+ ${tweet.category}"></div>
 									</div>
 								</div>
-									<div class="row">
+								<div class="row">
 									<div class="col-lg-12 col-md-12 col-sm-12">
-																	
-							   <a th:href="@{'/comment/' + ${tweet.tweetId}}">
-          <button class="btn btn-outline-primary btn-sm" type="button">
-            Read More</button
-          >
-        </a>
-        <a
-              href="#"
-              style="margin-left: 20px;"
-              th:href="@{'/comment/' + ${tweet.tweetId}}"
-              th:text="|${tweet.getComments().size()} comments|"></a>
+
+
+
+										<form class="navbar-brand"
+											th:action="@{'/analyse/' + ${tweet.tweetId}}" th:method="get"
+											id="anbutton">
+											<button class="btn btn-primary">Analyse Comments</button>
+										</form>
+
 									</div>
 								</div>
-	</form>
+
+							</li>
+						</ul>
+					</div>
+					<div class="row">
+						<form th:action="@{/comment}" th:object="${commentForm}"
+							method="post">
+							<textarea id="input-default" class="form-control" type="text"
+								th:field="*{content}" />
+							<input type="hidden" name="tweetid" id="tweetid"
+								th:value="${tweet.tweetId}">
+							<button class="btn btn-primary pull-right" id="tbutton">add
+								comment</button>
+						</form>
+					</div>
+					<div class="row">
+						<ul class="list-group top-buffer">
+							<li class="list-group-item" th:each="comment: ${tweet.comments}">
+
+								<div class="row">
+									<div class="col-lg-3 col-md-3 col-sm-2">
+										<img th:src="${comment.commentUser.iconPath}"
+											class="img-responsive img-rounded" alt="Responsive image" />
+									</div>
+									<div class="col-lg-9 col-md-9 col-sm-10">
+
+										<p class="h5" th:text="${comment.comment}"></p>
+
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-lg-12 col-md-12 col-sm-12">
+										<p class="h4"
+											th:text="${'Added by '+comment.commentUser.screenName+' on '+#dates.format(comment.postTime,'yyyy-MM-dd HH:mm')}"></p>
+									</div>
+								</div>
 							</li>
 						</ul>
 					</div>
@@ -195,19 +224,14 @@
 		<footer>
 			<div class="row col-lg-12">
 				<ul class="list-unstyled">
-					<li>&copy; twitter opinion mining 2020</li>
+					<li>&copy; Twitter opinion mining 2020</li>
 				</ul>
 			</div>
 		</footer>
 	</div>
 </body>
-<link
-	href="/css/bootstrap.min.css"
-	rel="stylesheet" />
-<!-- <script
-	src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script> -->
-<!-- <script
-	src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js'></script> -->
-<script src="/js/tweetbox.js"></script>
-<link href="/css/timeline.css" rel="stylesheet" />
+<link href="../css/bootstrap.min.css" rel="stylesheet" />
+
+<script src="../js/tweetbox.js"></script>
+<link href="../css/timeline.css" rel="stylesheet" />
 </html>

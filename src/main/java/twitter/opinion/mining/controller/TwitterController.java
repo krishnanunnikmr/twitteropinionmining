@@ -1,5 +1,13 @@
-package twitter.opinion.mining.controller;
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																														package twitter.opinion.mining.controller;
 
+
+import java.security.Principal;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,18 +27,20 @@ import com.hankcs.hanlp.classification.classifiers.IClassifier;
 
 import twitter.opinion.mining.exception.UserIdAlreadyExistsException;
 import twitter.opinion.mining.exception.UserIdNotFoundException;
+import twitter.opinion.mining.form.CommentForm;
 import twitter.opinion.mining.form.RegisterForm;
 import twitter.opinion.mining.form.TweetForm;
 import twitter.opinion.mining.form.UserForm;
+import twitter.opinion.mining.model.Comment;
 import twitter.opinion.mining.model.Tweet;
 import twitter.opinion.mining.model.User;
-import twitter.opinion.mining.service.*;
+import twitter.opinion.mining.repository.CommentRepository;
+import twitter.opinion.mining.service.TweetService;
+import twitter.opinion.mining.service.TwitterUserDetailsService;
+import twitter.opinion.mining.service.UserService;
 import twitter.opinion.mining.service.upload.FileSystemStorageService;
 import twitter.opinion.mining.util.SVMUtil;
 import twitter.opinion.mining.util.Util;
-
-import java.security.Principal;
-import java.util.*;
 
 
 
@@ -45,6 +55,7 @@ public class TwitterController {
     private TwitterUserDetailsService userDetailsService;
     private FileSystemStorageService fileSystemStorageService;
     private IClassifier iClassifier;
+    private CommentRepository commentRepository;
 
  
     @Autowired
@@ -52,12 +63,14 @@ public class TwitterController {
                                   UserService userService,
                                   TwitterUserDetailsService userDetailsService,
                                   FileSystemStorageService fileSystemStorageService,
-                                  @Qualifier("categoryClassifier") IClassifier iClassifier) {
+                                  @Qualifier("categoryClassifier") IClassifier iClassifier,
+                                  CommentRepository commentRepository) {
         this.tweetService = tweetService;
         this.userService = userService;
         this.userDetailsService = userDetailsService;
         this.fileSystemStorageService = fileSystemStorageService;
         this.iClassifier=iClassifier;
+        this.commentRepository= commentRepository;
     }
 
     @GetMapping(value = "/")
@@ -79,8 +92,7 @@ public class TwitterController {
 
         return "timeline";
     }
-
-
+   
     @PostMapping(value = "/")
     String tweet(Principal principal, @Validated TweetForm form, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
@@ -110,6 +122,43 @@ public class TwitterController {
 
         return "redirect:/";
     }
+    
+    @GetMapping(value = "/comment/{id}")
+    String tweet(Principal principal, Model model,@PathVariable Integer id) {
+       
+
+
+        User loginUser = Util.getLoginuserFromPrincipal(principal);
+        model.addAttribute("userinfo", loginUser);
+        Tweet tweet =tweetService.find(id);
+        model.addAttribute("tweet", tweet);
+        model.addAttribute("commentForm", new CommentForm());   
+        model.addAttribute("recommend", userService.getUnFollowing10Users(loginUser, this));
+
+        log.info("util.noicon: "+Util.getNoIcon());
+
+
+        return "comment";
+    }
+    
+    @PostMapping("/comment")
+    public String addComment(Principal principal,CommentForm CommentForm, BindingResult bindingResult){
+        if(bindingResult.hasErrors()) {
+            log.info("There was a problem adding a new comment.");
+        } else {
+        	User loginUser = Util.getLoginuserFromPrincipal(principal);
+        	Comment comment=new Comment();
+        	comment.setCommentUser(loginUser);
+        	comment.setTweet(tweetService.find(CommentForm.getTweetid()));
+        	comment.setComment(CommentForm.getContent());
+            commentRepository.save(comment);
+            log.info("New comment was saved.");
+        }
+        return "redirect:/comment/" +CommentForm.getTweetid();
+    }
+    
+
+
 
     //register
     @GetMapping(value = "/register")
